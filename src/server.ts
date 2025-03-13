@@ -23,7 +23,6 @@ app.use ((error: any, req: Request, res: Response, next: NextFunction) =>{
     .status(400)
     .json({message: "Validation error", issues: error.format()})
     }
-
 })
 
 

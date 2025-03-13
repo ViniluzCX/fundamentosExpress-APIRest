@@ -42,10 +42,10 @@ class ProductsController{
 
     if (price < 0){
         throw new AppError("Preço do produto não pode ser negativo")
-    }*/
+    }
         
-    //throw new Error("Erro ao criar produto...")
-      //throw new AppError("Erro ao criar produto...",)
+    throw new Error("Erro ao criar produto...")
+      throw new AppError("Erro ao criar produto...",)*/
     
     res.status(201).json({name, price , user_id: req.user_id})
     }
