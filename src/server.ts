@@ -1,8 +1,7 @@
 import express, { Request, Response, NextFunction} from "express" //importando o express
+import { ZodError } from "zod"
 
 import { routes } from "./routes" //importando as rotas
-
-
 import { AppError } from "./utils/App_Error" //importando o AppError
 
 
@@ -13,11 +12,17 @@ const app = express()
 app.use(express.json())
 app.use(routes)
 
-app.use((error:any, request: Request, response: Response, _:NextFunction) =>{
-    if(error instanceof AppError){
-        return response.status(error.statusCode).json({message: error.message})
+// @ts-ignore
+app.use ((error: any, req: Request, res: Response, next: NextFunction) =>{
+    if(error instanceof AppError){  
+        return res.status(error.statusCode).json({message: error.message})
     }
-    return response.status(500).json({message: "Internal server error"})
+
+  if(error instanceof ZodError){
+    return res
+    .status(400)
+    .json({message: "Validation error", issues: error.format()})
+    }
 
 })
 
